@@ -1,10 +1,13 @@
 import React from 'react';
 import { Books } from './Data';
-import { NavLink, Outlet } from "react-router-dom"
+import { NavLink, Outlet, useLocation, useSearchParams } from "react-router-dom"
 
 
 
 const BooksMap = () => {
+
+  const [searchParams, setSearchParams] = useSearchParams();
+  const location = useLocation();
 
   const books = Books
 
@@ -12,24 +15,51 @@ const BooksMap = () => {
 
   return (
     <>
-      <div style={{ display: "flex"}}>
-        <div style={{ display: "flex", flexDirection: "column" , borderLeft:"1px solid black" }}>
-          {books.map(theBook => (
-            <NavLink to={`${theBook.bookNum}`} key={theBook.bookNum}
-              style={({isActive})=> {
-                return{
-                  textDecoration: "none",
-
-                  color: isActive? "red" : "black" ,
-                  borderBottom: isActive? "2px solid red" : "none",
+      <div style={{ display: "flex" }}>
+        <div style={{ display: "flex", flexDirection: "column", borderLeft: "1px solid black" }}>
+          
+          <input type="text"
+            placeholder="جستجوی کتاب"
+            value={searchParams.get("filter" || "")}
+            onChange={
+              event => {
+                let filter = event.target.value;
+                console.log(filter);
+                if (filter) {
+                  setSearchParams({ filter });
+                } else {
+                  setSearchParams({})
                 }
-              }}
-            >
-              {theBook.bookName}
-            </NavLink>
-          ))}
+                console.log(location);
+              }
+            }
+          />
+
+          {
+            books.filter(theBook => {
+              let filter = searchParams.get("filter");
+              if (!filter) {
+                return true
+              }
+              let name = theBook.bookName.toLocaleLowerCase()
+              return name.startsWith(filter.toLocaleLowerCase())
+            })
+              .map(theBook => (
+                <NavLink to={`${theBook.bookNum}${location.search}`} key={theBook.bookNum}
+                  style={({ isActive }) => {
+                    return {
+                      textDecoration: "none",
+
+                      color: isActive ? "red" : "black",
+                      borderBottom: isActive ? "2px solid red" : "none",
+                    }
+                  }}
+                >
+                  {theBook.bookName}
+                </NavLink>
+              ))}
         </div>
-        <Outlet/>
+        <Outlet />
       </div>
     </>
   );
