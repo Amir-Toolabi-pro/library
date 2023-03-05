@@ -1,12 +1,14 @@
 import React from 'react';
-import { useParams } from 'react-router-dom';
-import { Books, getBook } from './Data';
+import { useParams , useNavigate , useLocation } from 'react-router-dom';
+import { deleteBook, getBook } from './Data';
 
 
 const Book = () => {
 
 
   const params = useParams();
+  const navigate = useNavigate()
+  const location = useLocation()
   const id = Number(params.bookId)
   console.log(id);
 
@@ -27,6 +29,7 @@ const Book = () => {
         <p>
           نام کتاب : {theBook.bookName}
         </p>
+        <button onClick={ ()=>{deleteBook(theBook.bookNum); navigate(`/books${location.search}`)}} >حذف مخاطب</button>
       </>
     );
   }else{

@@ -1,4 +1,4 @@
-export const Books = [
+export let Books = [
 
   {
     bookName: "فیزیک",
@@ -25,4 +25,8 @@ export const Books = [
 
 export const getBook =(id) => {
   return Books.find(theBook => theBook.bookNum === id )
+}
+
+export const deleteBook = (id) => {
+  Books = Books.filter(theBook => theBook.bookNum !== id )
 }
