@@ -5,15 +5,15 @@ import { Books, getBook } from './Data';
 
 const Book = () => {
 
-  
+
   const params = useParams();
   const id = Number(params.bookId)
   console.log(id);
-  
+
   const theBook = getBook(id)
   console.log(theBook);
 
-  
+
   // const books = Books;
   // const findBook = () => {
   //   const myBook = books.find(theBook => theBook.bookNum === id);
@@ -21,13 +21,24 @@ const Book = () => {
   // }
   // console.log(findBook);
 
-  return (
-    <>
-      <p>
-        نام کتاب : {theBook.bookName}
-      </p>
-    </>
-  );
+  if (theBook) {
+    return (
+      <>
+        <p>
+          نام کتاب : {theBook.bookName}
+        </p>
+      </>
+    );
+  }else{
+    return (
+      <>
+        <p>
+          کتاب با شناسه {id} یافت نشد
+        </p>
+      </>
+    );
+  }
+
 }
 
 export default Book;

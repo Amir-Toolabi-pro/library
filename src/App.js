@@ -19,6 +19,11 @@ const App = () => {
           <Route path=":bookId" element={<Book />} />
         </Route>
         <Route path="/about" element={<About />} />
+        <Route path="*" element={
+          <p>
+            گشتم نبود نگرد نیس
+          </p>
+        } />
       </Routes>
     </>
   );
